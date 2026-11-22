@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff8f4">
+  <meta name="description" content="J-Learn SMKN 1 Lahat — ruang belajar Bahasa Jepang interaktif.">
+  <title>Kana Learning Lab — J-Learn SMKN 1 Lahat</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="J-Learn beranda">
+      <span class="brand-mark">あ</span><span class="brand-copy"><strong>J-Learn</strong><small>SMKN 1 LAHAT</small></span>
+    </a>
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Buka navigasi" aria-controls="mainNav" aria-expanded="false">☰</button>
+    <nav class="main-nav" id="mainNav">
+      <a class="" href="index.html">⌂ <span>Beranda</span></a>
+      <a class="active" href="belajar.html">▤ <span>Belajar</span></a>
+      <a class="" href="kosakata.html">文 <span>Kosakata</span></a>
+      <a class="" href="dojo.html">✦ <span>Mini-game</span></a>
+      <a class="" href="studio.html">⚡ <span>J-Studio</span></a>
+      <a class="" href="budaya.html">鳥 <span>Budaya</span></a>
+    </nav>
+    <a class="header-cta" href="progress.html">Progres <span>↗</span></a>
+  </header>
+
+  <a class="skip-link" href="#mainContent">Lewati ke konten</a>
+  <main id="mainContent">
+<section class="page-hero wrap kana-page-hero">
+  <div class="eyebrow">JAPANESE FOUNDATION • KANA LAB</div>
+  <h1>Kenali hurufnya,<br><em>mulai baca bahasanya.</em></h1>
+  <p>Pelajari 46 karakter dasar Hiragana dan Katakana. Pilih karakter untuk melihat romaji dan mendengarkan pelafalannya.</p>
+</section>
+
+<section class="section wrap kana-learning">
+  <div class="kana-toolbar">
+    <div class="kana-tabs" role="tablist" aria-label="Pilih sistem huruf">
+      <button class="kana-tab active" data-script="hiragana" role="tab" aria-selected="true">Hiragana <span>あ</span></button>
+      <button class="kana-tab" data-script="katakana" role="tab" aria-selected="false">Katakana <span>ア</span></button>
+    </div>
+    <div class="kana-tools">
+      <label class="search-kana"><span>⌕</span><input id="kanaSearch" type="search" placeholder="Cari huruf / romaji..." aria-label="Cari karakter"></label>
+      <button class="sound-toggle" id="soundAll" type="button">▶ Dengarkan baris</button>
+    </div>
+  </div>
+
+  <div class="kana-intro">
+    <div><span class="kana-label" id="scriptLabel">HIRAGANA • ひらがな</span><h2 id="scriptTitle">Huruf dasar Hiragana</h2><p id="scriptDescription">Hiragana digunakan untuk menulis kata asli Jepang, akhiran kata, dan unsur tata bahasa.</p></div>
+    <div class="kana-count"><strong id="visibleCount">46</strong><span>karakter dasar</span></div>
+  </div>
+
+  <div class="kana-chart" id="kanaChart" aria-label="Daftar karakter kana"></div>
+  <div class="kana-empty" id="kanaEmpty" hidden>Karakter tidak ditemukan. Coba kata pencarian lain.</div>
+
+  <div class="kana-detail" id="kanaDetail" aria-live="polite">
+    <div class="detail-character" id="detailCharacter">あ</div>
+    <div class="detail-copy"><span class="kana-label">KARAKTER TERPILIH</span><h3 id="detailRomaji">a</h3><p id="detailHint">Bunyi vokal dasar. Dengarkan pelafalan untuk mengenali bunyinya.</p></div>
+    <button class="detail-sound" id="detailSound" type="button" aria-label="Dengarkan pelafalan">🔊 <span>Dengarkan</span></button>
+  </div>
+  <p class="kana-note">Catatan: audio menggunakan fitur text-to-speech pada browser/perangkat. Suara dan ketersediaannya dapat berbeda di setiap perangkat.</p>
+</section>
+
+<section class="section section-tint kana-practice-section">
+  <div class="wrap kana-practice-layout">
+    <div><div class="eyebrow">CHECK YOUR MEMORY</div><h2>Sudah mulai hafal?<br><em>Uji ingatanmu.</em></h2><p>Latihan singkat untuk mencocokkan karakter dengan romaji. Pilih sistem huruf dan mulai tantangan.</p>
+      <div class="practice-switch"><button class="practice-script active" data-practice="hiragana">Hiragana</button><button class="practice-script" data-practice="katakana">Katakana</button></div>
+      <button class="btn btn-primary" id="startKanaQuiz">Mulai latihan →</button>
+    </div>
+    <div class="kana-quiz-card" id="kanaQuizCard">
+      <div class="quiz-top"><span>KANA MEMORY CHECK</span><span id="kanaQuizCount">SIAP?</span></div>
+      <div class="quiz-progress"><span id="kanaQuizProgress"></span></div>
+      <div class="kana-quiz-placeholder"><span>あ</span><p>Latihan akan muncul di sini.</p></div>
+      <div id="kanaQuizArea" hidden>
+        <div class="kana-quiz-character" id="kanaQuizCharacter">あ</div>
+        <p class="quiz-prompt">Apa bunyi karakter ini?</p>
+        <div class="kana-quiz-options" id="kanaQuizOptions"></div>
+        <p class="quiz-feedback" id="kanaQuizFeedback" aria-live="polite"></p>
+        <button class="btn btn-primary btn-small" id="kanaQuizNext" disabled>Berikutnya →</button>
+      </div>
+      <div class="kana-quiz-result" id="kanaQuizResult" hidden></div>
+    </div>
+  </div>
+</section>
+</main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand"><span class="brand-mark">あ</span><div><strong>J-Learn SMKN 1 Lahat</strong><p>Belajar hari ini, melangkah lebih jauh esok.</p></div></div>
+      <div class="footer-jp"><strong>日本語を学ぼう</strong><small>LEARN • PLAY • GROW</small></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 J-Learn SMKN 1 Lahat</span><span>Dibuat untuk menemani perjalanan belajarmu ✿</span></div>
+  </footer>
+
+  <div class="mascot-dock" id="mascotDock">
+    <div class="mascot-bubble" id="mascotBubble"><strong>Konnichiwa!</strong><span>Yuk, belajar sedikit demi sedikit. Kamu pasti bisa!</span></div>
+    <button class="mascot-button" id="mascotButton" aria-label="Dapatkan semangat dari Kitsune"><img src="static/images/kitsune-mascot.png" alt="Kitsune, maskot J-Learn"></button>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="static/js/main.js"></script>
+  
+</body>
+</html>

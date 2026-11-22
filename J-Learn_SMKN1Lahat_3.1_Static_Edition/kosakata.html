@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff8f4">
+  <meta name="description" content="J-Learn SMKN 1 Lahat — ruang belajar Bahasa Jepang interaktif.">
+  <title>Vocabulary Lab — J-Learn</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="J-Learn beranda">
+      <span class="brand-mark">あ</span><span class="brand-copy"><strong>J-Learn</strong><small>SMKN 1 LAHAT</small></span>
+    </a>
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Buka navigasi" aria-controls="mainNav" aria-expanded="false">☰</button>
+    <nav class="main-nav" id="mainNav">
+      <a class="" href="index.html">⌂ <span>Beranda</span></a>
+      <a class="" href="belajar.html">▤ <span>Belajar</span></a>
+      <a class="active" href="kosakata.html">文 <span>Kosakata</span></a>
+      <a class="" href="dojo.html">✦ <span>Mini-game</span></a>
+      <a class="" href="studio.html">⚡ <span>J-Studio</span></a>
+      <a class="" href="budaya.html">鳥 <span>Budaya</span></a>
+    </nav>
+    <a class="header-cta" href="progress.html">Progres <span>↗</span></a>
+  </header>
+
+  <a class="skip-link" href="#mainContent">Lewati ke konten</a>
+  <main id="mainContent">
+<section class="page-hero wrap"><div class="eyebrow">VOCABULARY LAB · 語彙</div><h1>Kata demi kata,<br><em>dunia terbuka.</em></h1><p>Bangun kosakata Jepang lewat kartu pintar, audio pelafalan, kategori tematik, dan kuis adaptif.</p></section>
+<section class="section wrap vocab-lab" x-data="vocabLab()">
+  <div class="vocab-funbar"><span>📚 50+ kata untuk dikoleksi</span><span>🎧 Dengarkan • 🃏 Balik kartu • 🧠 Uji ingatan</span><span class="vocab-meme">POV: hafal こんにちは, tiba-tiba ditanya selain itu 😭</span></div>
+  <div class="vocab-toolbar"><div class="vocab-filters"><button @click="category='Semua'" :class="{active:category==='Semua'}">Semua</button><template x-for="c in categories" :key="c"><button @click="category=c" :class="{active:category===c}" x-text="c"></button></template></div><input class="vocab-search" x-model="search" placeholder="Cari Jepang, romaji, atau arti…" aria-label="Cari kosakata"></div>
+  <div class="vocab-layout"><div class="vocab-list"><template x-for="word in filtered" :key="word.jp"><button class="vocab-row" @click="selected=word" :class="{chosen:selected.jp===word.jp}"><span class="vocab-jp" x-text="word.jp"></span><span class="vocab-meta"><b x-text="word.romaji"></b><small x-text="word.meaning"></small></span><span class="vocab-cat" x-text="word.category"></span></button></template><p x-show="filtered.length===0" class="empty-state">Belum ada kata yang cocok.</p></div>
+  <aside class="vocab-card-wrap"><div class="eyebrow">WORD OF THE MOMENT</div><button class="flashcard" @click="flipped=!flipped" :class="{flipped:flipped}" aria-label="Balik kartu kosakata"><div class="flash-inner"><div class="flash-front"><small x-text="selected.category"></small><strong x-text="selected.jp"></strong><span>Ketuk untuk membalik kartu</span></div><div class="flash-back"><small>ROMAJI</small><strong x-text="selected.romaji"></strong><span x-text="selected.meaning"></span><em x-text="selected.example"></em></div></div></button><div class="flash-actions"><button class="btn btn-primary" @click="speak(selected.jp)">▶ Dengarkan</button><button class="btn btn-outline" @click="nextCard()">Kartu berikut →</button></div><p class="vocab-tip">Tip: ucapkan kata dengan suara pelan, lalu buat satu kalimat sendiri.</p></aside></div>
+  <div class="vocab-meme-strip"><span class="meme-face">🦊</span><div><b>Kitsune bilang:</b><p>“Satu kata sehari lebih baik daripada 50 kata yang dilupakan besok.”</p></div><span class="meme-caption">MEME BREAK</span></div>
+  <div class="vocab-quiz"><div><div class="eyebrow">QUICK CHECK</div><h2>Uji ingatanmu.</h2><p>Sepuluh soal singkat dari kosakata yang tersedia.</p></div><div class="vocab-quiz-box"><template x-if="!finished"><div><div class="quiz-meter"><span x-text="`SOAL ${index+1} / 10`"></span><span x-text="`SKOR ${score}`"></span></div><h3 x-text="current.jp"></h3><p>Pilih arti yang paling tepat.</p><div class="vocab-options"><template x-for="option in options" :key="option"><button @click="answer(option)" :disabled="answered" :class="{'correct':answered && option===current.meaning,'wrong':answered && option===chosen && option!==current.meaning}" x-text="option"></button></template></div><div class="quiz-feedback" x-text="feedback"></div><button class="btn btn-primary" @click="nextQuestion()" :disabled="!answered" x-text="index===9?'Lihat hasil':'Lanjut →'"></button></div></template><template x-if="finished"><div class="quiz-finish"><strong x-text="score + '/10'"></strong><h3 x-text="score>=8?'すばらしい！':'いい調子！'"></h3><p x-text="`Kamu menjawab ${score} dari 10 soal dengan benar.`"></p><button class="btn btn-primary" @click="startQuiz()">Ulangi kuis ↻</button></div></template></div></div>
+</section></main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand"><span class="brand-mark">あ</span><div><strong>J-Learn SMKN 1 Lahat</strong><p>Belajar hari ini, melangkah lebih jauh esok.</p></div></div>
+      <div class="footer-jp"><strong>日本語を学ぼう</strong><small>LEARN • PLAY • GROW</small></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 J-Learn SMKN 1 Lahat</span><span>Dibuat untuk menemani perjalanan belajarmu ✿</span></div>
+  </footer>
+
+  <div class="mascot-dock" id="mascotDock">
+    <div class="mascot-bubble" id="mascotBubble"><strong>Konnichiwa!</strong><span>Yuk, belajar sedikit demi sedikit. Kamu pasti bisa!</span></div>
+    <button class="mascot-button" id="mascotButton" aria-label="Dapatkan semangat dari Kitsune"><img src="static/images/kitsune-mascot.png" alt="Kitsune, maskot J-Learn"></button>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="static/js/main.js"></script>
+  
+</body>
+</html>

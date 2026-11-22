@@ -1,0 +1,322 @@
+
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff8f4">
+  <meta name="description" content="J-Learn SMKN 1 Lahat — ruang belajar Bahasa Jepang interaktif.">
+  <title>Listening Room — J-Learn</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="J-Learn beranda">
+      <span class="brand-mark">あ</span><span class="brand-copy"><strong>J-Learn</strong><small>SMKN 1 LAHAT</small></span>
+    </a>
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Buka navigasi" aria-controls="mainNav" aria-expanded="false">☰</button>
+    <nav class="main-nav" id="mainNav">
+      <a class="" href="index.html">⌂ <span>Beranda</span></a>
+      <a class="" href="belajar.html">▤ <span>Belajar</span></a>
+      <a class="" href="kosakata.html">文 <span>Kosakata</span></a>
+      <a class="" href="dojo.html">✦ <span>Mini-game</span></a>
+      <a class="active" href="studio.html">⚡ <span>J-Studio</span></a>
+      <a class="" href="budaya.html">鳥 <span>Budaya</span></a>
+    </nav>
+    <a class="header-cta" href="progress.html">Progres <span>↗</span></a>
+  </header>
+
+  <a class="skip-link" href="#mainContent">Lewati ke konten</a>
+  <main id="mainContent">
+
+<section class="page-hero wrap">
+
+    <div class="eyebrow">AUDIO IMMERSION · 聞き取り</div>
+
+    <h1>
+        Listen closely.<br>
+        <em>Understand naturally.</em>
+    </h1>
+
+    <p>
+        Latih telinga mengenali kosakata Jepang.
+        Dengarkan audio, pilih arti yang sesuai,
+        lalu buka transkrip untuk mengevaluasi jawaban.
+    </p>
+
+</section>
+
+
+<section class="section wrap"
+         x-data="listeningLab()">
+
+    <div class="listening-layout">
+
+        <div class="listening-player">
+
+            <div class="record-disc">
+                <span>音</span>
+            </div>
+
+            <div class="eyebrow">
+                NOW PLAYING · JAPANESE WORD
+            </div>
+
+            <h2 x-text="current.jp"></h2>
+
+            <p x-text="current.romaji"></p>
+
+            <button class="btn btn-primary"
+                    @click="speak()">
+                ▶ Putar audio
+            </button>
+
+            <div class="audio-note">
+                Audio menggunakan Japanese voice pada browser/perangkatmu.
+            </div>
+
+        </div>
+
+
+        <div class="listening-quiz">
+
+            <div class="grammar-level"
+                 x-text="'TRACK ' + (index+1) + ' / ' + tracks.length">
+            </div>
+
+            <span class="studio-kicker">
+                WHAT DID YOU HEAR?
+            </span>
+
+            <h3>Pilih arti yang kamu dengar.</h3>
+
+
+            <div class="listening-choices">
+
+                <template x-for="(choice,i) in current.choices"
+                          :key="choice">
+
+                    <button
+                        @click="answer(i)"
+                        :disabled="selected !== null"
+                        :class="selected === i
+                            ? (i === current.correct
+                                ? 'is-correct'
+                                : 'is-wrong')
+                            : ''"
+
+                        x-text="String.fromCharCode(65+i) + '. ' + choice">
+
+                    </button>
+
+                </template>
+
+            </div>
+
+
+            <div class="listening-feedback"
+                 x-show="selected !== null"
+                 x-cloak>
+
+                <strong x-text="
+                    selected === current.correct
+                    ? 'Tepat! よくできました'
+                    : 'Belum tepat, tetap lanjut.'
+                ">
+                </strong>
+
+                <p x-text="current.note"></p>
+
+                <button class="text-link"
+                        @click="showTranscript = !showTranscript"
+                        x-text="showTranscript
+                            ? 'Sembunyikan transkrip'
+                            : 'Lihat transkrip'">
+                </button>
+
+                <div class="transcript"
+                     x-show="showTranscript"
+                     x-text="
+                        current.jp + ' — ' +
+                        current.romaji + ' — ' +
+                        current.meaning
+                     ">
+                </div>
+
+                <button class="btn btn-primary"
+                        @click="next()"
+                        x-text="index === tracks.length - 1
+                            ? 'Ulangi sesi ↻'
+                            : 'Track berikutnya →'">
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand"><span class="brand-mark">あ</span><div><strong>J-Learn SMKN 1 Lahat</strong><p>Belajar hari ini, melangkah lebih jauh esok.</p></div></div>
+      <div class="footer-jp"><strong>日本語を学ぼう</strong><small>LEARN • PLAY • GROW</small></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 J-Learn SMKN 1 Lahat</span><span>Dibuat untuk menemani perjalanan belajarmu ✿</span></div>
+  </footer>
+
+  <div class="mascot-dock" id="mascotDock">
+    <div class="mascot-bubble" id="mascotBubble"><strong>Konnichiwa!</strong><span>Yuk, belajar sedikit demi sedikit. Kamu pasti bisa!</span></div>
+    <button class="mascot-button" id="mascotButton" aria-label="Dapatkan semangat dari Kitsune"><img src="static/images/kitsune-mascot.png" alt="Kitsune, maskot J-Learn"></button>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="static/js/main.js"></script>
+  
+
+<script>
+
+function listeningLab() {
+
+    return {
+
+        index: 0,
+        selected: null,
+        showTranscript: false,
+
+        tracks: [
+
+            {
+                jp: "ありがとう",
+                romaji: "Arigatou",
+                meaning: "Terima kasih",
+
+                choices: [
+                    "Permisi",
+                    "Terima kasih",
+                    "Selamat malam"
+                ],
+
+                correct: 1,
+
+                note:
+                    "ありがとう (arigatou) adalah ungkapan terima kasih dalam situasi informal."
+            },
+
+
+            {
+                jp: "おはよう",
+                romaji: "Ohayou",
+                meaning: "Selamat pagi",
+
+                choices: [
+                    "Selamat pagi",
+                    "Selamat tinggal",
+                    "Selamat siang"
+                ],
+
+                correct: 0,
+
+                note:
+                    "おはよう (ohayou) merupakan salam yang digunakan pada pagi hari."
+            },
+
+
+            {
+                jp: "みず",
+                romaji: "Mizu",
+                meaning: "Air",
+
+                choices: [
+                    "Buku",
+                    "Air",
+                    "Kucing"
+                ],
+
+                correct: 1,
+
+                note:
+                    "みず (mizu) berarti air."
+            },
+
+
+            {
+                jp: "ともだち",
+                romaji: "Tomodachi",
+                meaning: "Teman",
+
+                choices: [
+                    "Guru",
+                    "Pelajar",
+                    "Teman"
+                ],
+
+                correct: 2,
+
+                note:
+                    "ともだち (tomodachi) berarti teman."
+            }
+
+        ],
+
+
+        get current() {
+            return this.tracks[this.index];
+        },
+
+
+        speak() {
+
+            if (!("speechSynthesis" in window)) {
+                alert("Browser tidak mendukung text-to-speech.");
+                return;
+            }
+
+            speechSynthesis.cancel();
+
+            const utterance =
+                new SpeechSynthesisUtterance(this.current.jp);
+
+            utterance.lang = "ja-JP";
+            utterance.rate = 0.82;
+
+            speechSynthesis.speak(utterance);
+
+        },
+
+
+        answer(index) {
+
+            this.selected = index;
+
+        },
+
+
+        next() {
+
+            this.index =
+                (this.index + 1) % this.tracks.length;
+
+            this.selected = null;
+            this.showTranscript = false;
+
+        }
+
+    };
+
+}
+
+</script>
+
+
+</body>
+</html>

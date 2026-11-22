@@ -1,0 +1,390 @@
+
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff8f4">
+  <meta name="description" content="J-Learn SMKN 1 Lahat — ruang belajar Bahasa Jepang interaktif.">
+  <title>Grammar Laboratory — J-Learn</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="J-Learn beranda">
+      <span class="brand-mark">あ</span><span class="brand-copy"><strong>J-Learn</strong><small>SMKN 1 LAHAT</small></span>
+    </a>
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Buka navigasi" aria-controls="mainNav" aria-expanded="false">☰</button>
+    <nav class="main-nav" id="mainNav">
+      <a class="" href="index.html">⌂ <span>Beranda</span></a>
+      <a class="" href="belajar.html">▤ <span>Belajar</span></a>
+      <a class="" href="kosakata.html">文 <span>Kosakata</span></a>
+      <a class="" href="dojo.html">✦ <span>Mini-game</span></a>
+      <a class="active" href="studio.html">⚡ <span>J-Studio</span></a>
+      <a class="" href="budaya.html">鳥 <span>Budaya</span></a>
+    </nav>
+    <a class="header-cta" href="progress.html">Progres <span>↗</span></a>
+  </header>
+
+  <a class="skip-link" href="#mainContent">Lewati ke konten</a>
+  <main id="mainContent">
+
+<section class="page-hero wrap">
+
+    <div class="eyebrow">SENTENCE ENGINEERING · 文法</div>
+
+    <h1>
+        Rakit kata.<br>
+        <em>Bentuk makna.</em>
+    </h1>
+
+    <p>
+        Susun kata-kata Jepang ke dalam urutan yang tepat.
+        Lihat bagaimana partikel dan pola kalimat bekerja.
+    </p>
+
+</section>
+
+
+<section class="section wrap"
+         x-data="grammarLab()">
+
+    <div class="grammar-shell">
+
+        <div class="grammar-top">
+
+            <div>
+
+                <span class="studio-kicker">
+                    SENTENCE BUILDER
+                </span>
+
+                <h2 x-text="current.title"></h2>
+
+                <p x-text="current.instruction"></p>
+
+            </div>
+
+            <div class="grammar-level"
+                 x-text="'CHALLENGE ' + (index+1) + ' / ' + tasks.length">
+            </div>
+
+        </div>
+
+
+        <div class="grammar-translation">
+
+            <span>MEANING</span>
+
+            <strong x-text="current.meaning"></strong>
+
+        </div>
+
+
+        <div class="grammar-workspace">
+
+            <div class="grammar-zone">
+
+                <span>YOUR SENTENCE</span>
+
+                <div class="grammar-slots">
+
+                    <template x-for="(word,i) in assembled"
+                              :key="word.id">
+
+                        <button class="word-chip selected"
+                                @click="remove(i)"
+                                :disabled="checked"
+                                x-text="word.text">
+                        </button>
+
+                    </template>
+
+                    <span class="slot-placeholder"
+                          x-show="assembled.length === 0">
+                        Pilih potongan kata di bawah...
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="grammar-zone">
+
+                <span>AVAILABLE WORDS</span>
+
+                <div class="grammar-pool">
+
+                    <template x-for="word in current.words"
+                              :key="word.id">
+
+                        <button class="word-chip"
+                                :disabled="used.includes(word.id) || checked"
+                                @click="add(word)"
+                                x-text="word.text">
+                        </button>
+
+                    </template>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="grammar-actions">
+
+            <button class="btn btn-outline"
+                    @click="reset()"
+                    :disabled="checked">
+                Reset susunan
+            </button>
+
+            <button class="btn btn-primary"
+                    @click="check()"
+                    :disabled="checked || assembled.length === 0">
+                Periksa jawaban →
+            </button>
+
+        </div>
+
+
+        <div class="grammar-feedback"
+             x-show="checked"
+             x-cloak>
+
+            <strong x-text="
+                correct
+                ? '正解！ Susunan tepat.'
+                : 'Belum tepat — coba perhatikan polanya.'
+            ">
+            </strong>
+
+            <p x-text="current.explanation"></p>
+
+            <div class="grammar-answer">
+
+                Jawaban:
+
+                <b x-text="current.answer"></b>
+
+            </div>
+
+            <button class="btn btn-primary"
+                    @click="next()"
+                    x-text="index === tasks.length - 1
+                        ? 'Ulangi latihan ↻'
+                        : 'Tantangan berikutnya →'">
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="grammar-reference">
+
+        <div class="eyebrow">QUICK REFERENCE</div>
+
+        <h3>Pola dasar: S + O + V</h3>
+
+        <p>
+            Bahasa Jepang umumnya menempatkan kata kerja
+            di akhir kalimat. Partikel membantu menunjukkan
+            fungsi kata dalam kalimat.
+        </p>
+
+        <div class="pattern-row">
+
+            <span>SUBJEK</span>
+            <b>は</b>
+
+            <span>OBJEK</span>
+            <b>を</b>
+
+            <span>KATA KERJA</span>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand"><span class="brand-mark">あ</span><div><strong>J-Learn SMKN 1 Lahat</strong><p>Belajar hari ini, melangkah lebih jauh esok.</p></div></div>
+      <div class="footer-jp"><strong>日本語を学ぼう</strong><small>LEARN • PLAY • GROW</small></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 J-Learn SMKN 1 Lahat</span><span>Dibuat untuk menemani perjalanan belajarmu ✿</span></div>
+  </footer>
+
+  <div class="mascot-dock" id="mascotDock">
+    <div class="mascot-bubble" id="mascotBubble"><strong>Konnichiwa!</strong><span>Yuk, belajar sedikit demi sedikit. Kamu pasti bisa!</span></div>
+    <button class="mascot-button" id="mascotButton" aria-label="Dapatkan semangat dari Kitsune"><img src="static/images/kitsune-mascot.png" alt="Kitsune, maskot J-Learn"></button>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="static/js/main.js"></script>
+  
+
+<script>
+
+function grammarLab() {
+
+    return {
+
+        index: 0,
+        assembled: [],
+        used: [],
+        checked: false,
+        correct: false,
+
+        tasks: [
+
+            {
+                title: "Memperkenalkan diri",
+                instruction: "Susun kalimat: Saya adalah siswa.",
+                meaning: "Saya adalah siswa.",
+
+                words: [
+                    { id: 1, text: "です。" },
+                    { id: 2, text: "学生" },
+                    { id: 3, text: "私は" },
+                    { id: 4, text: "を" }
+                ],
+
+                sequence: [3, 2, 1],
+                answer: "私は 学生 です。",
+
+                explanation:
+                    "私は (watashi wa) berarti saya. 学生 (gakusei) berarti siswa. です (desu) merupakan bentuk sopan."
+            },
+
+
+            {
+                title: "Menyukai teh",
+                instruction: "Susun kalimat: Saya suka teh.",
+                meaning: "Saya suka teh.",
+
+                words: [
+                    { id: 1, text: "お茶" },
+                    { id: 2, text: "が" },
+                    { id: 3, text: "好きです。" },
+                    { id: 4, text: "私は" }
+                ],
+
+                sequence: [4, 1, 2, 3],
+                answer: "私は お茶 が 好きです。",
+
+                explanation:
+                    "Pola A wa B ga suki desu digunakan untuk menyatakan kesukaan."
+            },
+
+
+            {
+                title: "Minum air",
+                instruction: "Susun kalimat: Saya minum air.",
+                meaning: "Saya minum air.",
+
+                words: [
+                    { id: 1, text: "水" },
+                    { id: 2, text: "を" },
+                    { id: 3, text: "飲みます。" },
+                    { id: 4, text: "私は" }
+                ],
+
+                sequence: [4, 1, 2, 3],
+                answer: "私は 水 を 飲みます。",
+
+                explanation:
+                    "Partikel を (o) menandai objek langsung. 飲みます (nomimasu) berarti minum."
+            }
+
+        ],
+
+
+        get current() {
+            return this.tasks[this.index];
+        },
+
+
+        add(word) {
+
+            if (this.checked) return;
+
+            if (this.used.includes(word.id)) return;
+
+            this.assembled.push(word);
+            this.used.push(word.id);
+
+        },
+
+
+        remove(position) {
+
+            if (this.checked) return;
+
+            const removed = this.assembled.splice(position, 1)[0];
+
+            this.used = this.used.filter(
+                id => id !== removed.id
+            );
+
+        },
+
+
+        reset() {
+
+            this.assembled = [];
+            this.used = [];
+            this.checked = false;
+            this.correct = false;
+
+        },
+
+
+        check() {
+
+            this.checked = true;
+
+            const result = this.assembled
+                .map(word => word.id)
+                .join(",");
+
+            this.correct =
+                result === this.current.sequence.join(",");
+
+        },
+
+
+        next() {
+
+            if (this.index === this.tasks.length - 1) {
+                this.index = 0;
+            } else {
+                this.index++;
+            }
+
+            this.reset();
+
+        }
+
+    };
+
+}
+
+</script>
+
+
+</body>
+</html>

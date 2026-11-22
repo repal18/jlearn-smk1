@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff8f4">
+  <meta name="description" content="J-Learn SMKN 1 Lahat — ruang belajar Bahasa Jepang interaktif.">
+  <title>Latihan — J-Learn SMKN 1 Lahat<script>
+document.addEventListener("DOMContentLoaded", () => {
+ const audio=document.getElementById("quizAudio"), kana=document.getElementById("quizKana");
+ if(audio) audio.addEventListener("click",()=>{ if(window.jlSpeak) window.jlSpeak(kana.textContent); });
+ const observer=new MutationObserver(()=>{ if(audio && kana) audio.setAttribute("aria-label","Dengarkan "+kana.textContent); });
+ if(kana) observer.observe(kana,{childList:true,characterData:true,subtree:true});
+});
+</script>
+</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="J-Learn beranda">
+      <span class="brand-mark">あ</span><span class="brand-copy"><strong>J-Learn</strong><small>SMKN 1 LAHAT</small></span>
+    </a>
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Buka navigasi" aria-controls="mainNav" aria-expanded="false">☰</button>
+    <nav class="main-nav" id="mainNav">
+      <a class="" href="index.html">⌂ <span>Beranda</span></a>
+      <a class="" href="belajar.html">▤ <span>Belajar</span></a>
+      <a class="" href="kosakata.html">文 <span>Kosakata</span></a>
+      <a class="" href="dojo.html">✦ <span>Mini-game</span></a>
+      <a class="" href="studio.html">⚡ <span>J-Studio</span></a>
+      <a class="" href="budaya.html">鳥 <span>Budaya</span></a>
+    </nav>
+    <a class="header-cta" href="progress.html">Progres <span>↗</span></a>
+  </header>
+
+  <a class="skip-link" href="#mainContent">Lewati ke konten</a>
+  <main id="mainContent">
+<section class="page-hero wrap"><div class="eyebrow">PRACTICE ROOM</div><h1>Latihan kecil,<br><em>kemajuan berarti.</em></h1><p>Coba kuis pengenalan Hiragana berikut. Ini latihan demonstrasi untuk membantu membangun kebiasaan belajar.</p></section>
+<section class="section wrap practice-layout">
+  <div class="practice-info"><div class="eyebrow">KANA QUICK QUIZ</div><h2>Seberapa kenal kamu dengan Hiragana?</h2><p>Pilih jawaban yang tepat untuk setiap karakter. Setelah menjawab, kamu akan mendapat umpan balik dan skor latihan.</p><div class="practice-facts"><div><b>5</b><span>Pertanyaan</span></div><div><b>1</b><span>Topik dasar</span></div><div><b>∞</b><span>Bisa diulang</span></div></div></div>
+  <div class="quiz-box" id="quizBox">
+    <div class="quiz-top"><span>HIRAGANA • PEMULA</span><span id="questionCount">01 / 05</span></div>
+    <div class="quiz-progress"><span id="quizProgress"></span></div>
+    <p class="quiz-prompt">Apa bunyi karakter berikut?</p>
+    <div class="quiz-kana" id="quizKana">あ</div><button class="btn btn-outline quiz-audio" id="quizAudio" type="button">🔊 Dengarkan bunyi</button>
+    <div class="answer-grid" id="answerGrid">
+      <button class="answer-option" data-answer="a">A. A</button>
+      <button class="answer-option" data-answer="i">B. I</button>
+      <button class="answer-option" data-answer="u">C. U</button>
+      <button class="answer-option" data-answer="e">D. E</button>
+    </div>
+    <div class="practice-meme" id="practiceMeme">🦊 Kitsune: fokus, kamu bisa! Jangan asal pencet seperti lagi speedrun.</div><p class="quiz-feedback" id="quizFeedback" aria-live="polite">Pilih satu jawaban untuk melanjutkan.</p>
+    <div class="quiz-bottom"><span id="scoreText">Skor: 0</span><button class="btn btn-primary btn-small" id="nextQuestion" disabled>Berikutnya →</button></div>
+  </div>
+</section>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+ const audio=document.getElementById("quizAudio"), kana=document.getElementById("quizKana");
+ if(audio) audio.addEventListener("click",()=>{ if(window.jlSpeak) window.jlSpeak(kana.textContent); });
+ const observer=new MutationObserver(()=>{ if(audio && kana) audio.setAttribute("aria-label","Dengarkan "+kana.textContent); });
+ if(kana) observer.observe(kana,{childList:true,characterData:true,subtree:true});
+});
+</script>
+</main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand"><span class="brand-mark">あ</span><div><strong>J-Learn SMKN 1 Lahat</strong><p>Belajar hari ini, melangkah lebih jauh esok.</p></div></div>
+      <div class="footer-jp"><strong>日本語を学ぼう</strong><small>LEARN • PLAY • GROW</small></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 J-Learn SMKN 1 Lahat</span><span>Dibuat untuk menemani perjalanan belajarmu ✿</span></div>
+  </footer>
+
+  <div class="mascot-dock" id="mascotDock">
+    <div class="mascot-bubble" id="mascotBubble"><strong>Konnichiwa!</strong><span>Yuk, belajar sedikit demi sedikit. Kamu pasti bisa!</span></div>
+    <button class="mascot-button" id="mascotButton" aria-label="Dapatkan semangat dari Kitsune"><img src="static/images/kitsune-mascot.png" alt="Kitsune, maskot J-Learn"></button>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="static/js/main.js"></script>
+  
+</body>
+</html>

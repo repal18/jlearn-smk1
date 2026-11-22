@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff8f4">
+  <meta name="description" content="J-Learn SMKN 1 Lahat — ruang belajar Bahasa Jepang interaktif.">
+  <title>J-Dojo — J-Learn</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="J-Learn beranda">
+      <span class="brand-mark">あ</span><span class="brand-copy"><strong>J-Learn</strong><small>SMKN 1 LAHAT</small></span>
+    </a>
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Buka navigasi" aria-controls="mainNav" aria-expanded="false">☰</button>
+    <nav class="main-nav" id="mainNav">
+      <a class="" href="index.html">⌂ <span>Beranda</span></a>
+      <a class="" href="belajar.html">▤ <span>Belajar</span></a>
+      <a class="" href="kosakata.html">文 <span>Kosakata</span></a>
+      <a class="active" href="dojo.html">✦ <span>Mini-game</span></a>
+      <a class="" href="studio.html">⚡ <span>J-Studio</span></a>
+      <a class="" href="budaya.html">鳥 <span>Budaya</span></a>
+    </nav>
+    <a class="header-cta" href="progress.html">Progres <span>↗</span></a>
+  </header>
+
+  <a class="skip-link" href="#mainContent">Lewati ke konten</a>
+  <main id="mainContent">
+<section class="page-hero wrap"><div class="eyebrow">J-DOJO · PLAY TO LEARN</div><h1>Belajar serius,<br><em>main tetap jalan.</em></h1><p>Asah ingatan lewat tantangan mencocokkan pasangan. Pilih dua kartu yang memiliki arti sama.</p></section>
+<section class="section wrap dojo-section"><div class="dojo-head"><div><div class="eyebrow">MEMORY MATCH · 記憶ゲーム</div><h2>Pasangkan kosakata.</h2><p>Cocokkan tulisan Jepang dengan arti Indonesianya. Selesaikan semua pasangan dengan langkah sesedikit mungkin.</p></div><div class="dojo-stats"><div><strong id="matchMoves">0</strong><span>LANGKAH</span></div><div><strong id="matchPairs">0/6</strong><span>PASANGAN</span></div><div><strong id="matchTime">00:00</strong><span>WAKTU</span></div></div></div>
+<div class="match-toolbar"><span id="matchMessage">Pilih satu kartu untuk memulai.</span><div class="match-tools"><button class="btn btn-outline" id="studyTipButton" type="button">Ambil study tip ✦</button><button class="btn btn-outline" id="restartMatch">Acak ulang ↻</button></div></div><div class="dojo-meme">🎮 MEME CHECK: “Cuma mau main satu stage.” — 45 menit kemudian masih ngejar perfect run.</div>
+<div class="stage-panel">
+  <div><div class="eyebrow">STAGE SELECT</div><h3>Pilih arena tantangan</h3><p>Stage berikutnya terbuka setelah stage sebelumnya selesai.</p></div>
+  <div class="stage-grid" id="stageGrid"></div>
+  <p class="stage-status" id="stageStatus" aria-live="polite">Stage 1 · Pemula</p>
+</div>
+<div id="studyTip" aria-live="polite"></div><div class="match-grid" id="matchGrid" aria-live="polite"></div><div class="dojo-win" id="matchWin" hidden><span>達成！</span><h3>Mission complete!</h3><p id="matchResult"></p><button class="btn btn-primary" id="playAgain">Main lagi →</button></div></section>
+<section class="section dojo-side"><div class="wrap dojo-side-grid">
+  <div><div class="eyebrow">AUTO QUEST · 今日の課題</div><h2>Misi selesai,<br><em>progres terhitung.</em></h2><p>Misi akan terisi otomatis saat kamu belajar. Tidak perlu checklist manual.</p></div>
+  <div class="mission-list" id="missionList">
+    <div class="auto-mission" data-mission="kana"><span class="mission-emoji">あ</span><span><b>Review 5 karakter kana</b><small>Ketuk lima karakter di Kana Lab</small></span><strong class="mission-progress-text">0/5</strong><div class="mission-progress-track"><i></i></div></div>
+    <div class="auto-mission" data-mission="vocab"><span class="mission-emoji">語</span><span><b>Pelajari 5 kosakata</b><small>Dengarkan lima kata di Vocabulary Lab</small></span><strong class="mission-progress-text">0/5</strong><div class="mission-progress-track"><i></i></div></div>
+    <div class="auto-mission" data-mission="speak"><span class="mission-emoji">音</span><span><b>Latihan pengucapan 3 kali</b><small>Gunakan tombol audio untuk mendengar pelafalan</small></span><strong class="mission-progress-text">0/3</strong><div class="mission-progress-track"><i></i></div></div>
+    <div class="mission-progress"><span id="missionCount">0/3 misi selesai</span><div><i id="missionBar"></i></div></div>
+  </div>
+</div></section>
+</main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand"><span class="brand-mark">あ</span><div><strong>J-Learn SMKN 1 Lahat</strong><p>Belajar hari ini, melangkah lebih jauh esok.</p></div></div>
+      <div class="footer-jp"><strong>日本語を学ぼう</strong><small>LEARN • PLAY • GROW</small></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 J-Learn SMKN 1 Lahat</span><span>Dibuat untuk menemani perjalanan belajarmu ✿</span></div>
+  </footer>
+
+  <div class="mascot-dock" id="mascotDock">
+    <div class="mascot-bubble" id="mascotBubble"><strong>Konnichiwa!</strong><span>Yuk, belajar sedikit demi sedikit. Kamu pasti bisa!</span></div>
+    <button class="mascot-button" id="mascotButton" aria-label="Dapatkan semangat dari Kitsune"><img src="static/images/kitsune-mascot.png" alt="Kitsune, maskot J-Learn"></button>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="static/js/main.js"></script>
+  
+</body>
+</html>

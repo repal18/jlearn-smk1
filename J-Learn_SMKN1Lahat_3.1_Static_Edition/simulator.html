@@ -1,0 +1,416 @@
+
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff8f4">
+  <meta name="description" content="J-Learn SMKN 1 Lahat — ruang belajar Bahasa Jepang interaktif.">
+  <title>Life Simulator — J-Learn</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="J-Learn beranda">
+      <span class="brand-mark">あ</span><span class="brand-copy"><strong>J-Learn</strong><small>SMKN 1 LAHAT</small></span>
+    </a>
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Buka navigasi" aria-controls="mainNav" aria-expanded="false">☰</button>
+    <nav class="main-nav" id="mainNav">
+      <a class="" href="index.html">⌂ <span>Beranda</span></a>
+      <a class="" href="belajar.html">▤ <span>Belajar</span></a>
+      <a class="" href="kosakata.html">文 <span>Kosakata</span></a>
+      <a class="" href="dojo.html">✦ <span>Mini-game</span></a>
+      <a class="active" href="studio.html">⚡ <span>J-Studio</span></a>
+      <a class="" href="budaya.html">鳥 <span>Budaya</span></a>
+    </nav>
+    <a class="header-cta" href="progress.html">Progres <span>↗</span></a>
+  </header>
+
+  <a class="skip-link" href="#mainContent">Lewati ke konten</a>
+  <main id="mainContent">
+
+<section class="page-hero wrap">
+
+    <div class="eyebrow">IMMERSIVE ROLEPLAY · 旅の日本語</div>
+
+    <h1>
+        Satu hari di Jepang.<br>
+        <em>Berani berinteraksi?</em>
+    </h1>
+
+    <p>
+        Pilih skenario, baca situasi, lalu tentukan respons.
+        Setiap pilihan memberi penjelasan bahasa dan konteks.
+    </p>
+
+</section>
+
+
+<section class="section wrap sim-wrap"
+         x-data="lifeSim()">
+
+    <div class="sim-scene">
+
+        <div class="sim-scene-art">
+
+            <span class="scene-kanji"
+                  x-text="scene.icon">
+            </span>
+
+            <span class="scene-label"
+                  x-text="scene.location">
+            </span>
+
+        </div>
+
+
+        <div class="sim-scene-content">
+
+            <div class="eyebrow"
+                 x-text="'SCENARIO ' + (step + 1) + ' / ' + scenes.length">
+            </div>
+
+            <h2 x-text="scene.title"></h2>
+
+            <p x-text="scene.story"></p>
+
+
+            <div class="sim-dialogue">
+
+                <span class="dialogue-label">
+                    YOU NEED TO SAY
+                </span>
+
+                <strong x-text="scene.prompt"></strong>
+
+                <small x-text="scene.translation"></small>
+
+            </div>
+
+
+            <div class="sim-options">
+
+                <template x-for="(option,index) in scene.options"
+                          :key="scene.id + '-' + index">
+
+                    <button class="sim-option"
+                            :class="chosen === index
+                                ? (option.correct ? 'is-correct' : 'is-wrong')
+                                : ''"
+                            :disabled="chosen !== null"
+                            @click="choose(index)">
+
+                        <span x-text="String.fromCharCode(65+index)"></span>
+
+                        <span x-text="option.jp"></span>
+
+                        <small x-text="option.romaji"></small>
+
+                    </button>
+
+                </template>
+
+            </div>
+
+
+            <div class="sim-feedback"
+                 x-show="chosen !== null"
+                 x-cloak>
+
+                <strong x-text="
+                    scene.options[chosen].correct
+                    ? 'よくできました！'
+                    : 'Coba pelajari respons ini.'
+                ">
+                </strong>
+
+                <p x-text="scene.options[chosen].explanation"></p>
+
+                <div class="sim-correct-answer">
+                    Ungkapan:
+
+                    <b x-text="scene.options.find(o => o.correct).jp"></b>
+
+                    —
+
+                    <span x-text="scene.options.find(o => o.correct).romaji"></span>
+                </div>
+
+                <button class="btn btn-primary"
+                        @click="next()"
+                        x-text="step === scenes.length - 1
+                            ? 'Lihat hasil →'
+                            : 'Lanjutkan →'">
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="sim-progress">
+
+        <span>YOUR JOURNEY</span>
+
+        <div>
+            <i :style="'width:' +
+                ((step + (chosen !== null ? 1 : 0))
+                / scenes.length * 100) + '%'">
+            </i>
+        </div>
+
+        <b x-text="score + ' correct'"></b>
+
+    </div>
+
+
+    <div class="sim-result"
+         x-show="finished"
+         x-cloak>
+
+        <div class="result-symbol">旅</div>
+
+        <div class="eyebrow">SIMULATION COMPLETE</div>
+
+        <h2>Perjalanan selesai!</h2>
+
+        <p x-text="
+            'Kamu menjawab ' + score +
+            ' dari ' + scenes.length +
+            ' situasi dengan tepat.'
+        ">
+        </p>
+
+        <button class="btn btn-primary"
+                @click="restart()">
+            Ulangi perjalanan ↻
+        </button>
+
+    </div>
+
+</section>
+
+</main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand"><span class="brand-mark">あ</span><div><strong>J-Learn SMKN 1 Lahat</strong><p>Belajar hari ini, melangkah lebih jauh esok.</p></div></div>
+      <div class="footer-jp"><strong>日本語を学ぼう</strong><small>LEARN • PLAY • GROW</small></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 J-Learn SMKN 1 Lahat</span><span>Dibuat untuk menemani perjalanan belajarmu ✿</span></div>
+  </footer>
+
+  <div class="mascot-dock" id="mascotDock">
+    <div class="mascot-bubble" id="mascotBubble"><strong>Konnichiwa!</strong><span>Yuk, belajar sedikit demi sedikit. Kamu pasti bisa!</span></div>
+    <button class="mascot-button" id="mascotButton" aria-label="Dapatkan semangat dari Kitsune"><img src="static/images/kitsune-mascot.png" alt="Kitsune, maskot J-Learn"></button>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="static/js/main.js"></script>
+  
+
+<script>
+
+function lifeSim() {
+
+    return {
+
+        step: 0,
+        chosen: null,
+        score: 0,
+        finished: false,
+
+        scenes: [
+
+            {
+                id: "station",
+                icon: "駅",
+                location: "TRAIN STATION",
+                title: "Mencari stasiun",
+
+                story:
+                    "Kamu berada di pusat kota dan ingin bertanya lokasi stasiun kepada seseorang.",
+
+                prompt: "Di mana stasiun?",
+                translation: "Eki wa doko desu ka?",
+
+                options: [
+
+                    {
+                        jp: "駅はどこですか。",
+                        romaji: "Eki wa doko desu ka?",
+                        correct: true,
+
+                        explanation:
+                            "Pola X wa doko desu ka digunakan untuk menanyakan lokasi sesuatu."
+                    },
+
+                    {
+                        jp: "水をください。",
+                        romaji: "Mizu o kudasai",
+                        correct: false,
+
+                        explanation:
+                            "Ungkapan ini berarti Tolong beri saya air."
+                    },
+
+                    {
+                        jp: "おはようございます。",
+                        romaji: "Ohayou gozaimasu",
+                        correct: false,
+
+                        explanation:
+                            "Ini adalah salam sopan pada pagi hari."
+                    }
+
+                ]
+            },
+
+
+            {
+                id: "cafe",
+                icon: "喫",
+                location: "JAPANESE CAFÉ",
+                title: "Memesan minuman",
+
+                story:
+                    "Kamu masuk ke sebuah kafe. Pelayan menunggu pesananmu.",
+
+                prompt: "Tolong beri saya air.",
+                translation: "Mizu o kudasai.",
+
+                options: [
+
+                    {
+                        jp: "これは何ですか。",
+                        romaji: "Kore wa nan desu ka?",
+                        correct: false,
+
+                        explanation:
+                            "Artinya Ini apa?"
+                    },
+
+                    {
+                        jp: "水をください。",
+                        romaji: "Mizu o kudasai",
+                        correct: true,
+
+                        explanation:
+                            "O kudasai adalah bentuk permintaan sopan: tolong berikan."
+                    },
+
+                    {
+                        jp: "駅はどこですか。",
+                        romaji: "Eki wa doko desu ka?",
+                        correct: false,
+
+                        explanation:
+                            "Artinya Di mana stasiun?"
+                    }
+
+                ]
+            },
+
+
+            {
+                id: "school",
+                icon: "学",
+                location: "AT SCHOOL",
+                title: "Memperkenalkan diri",
+
+                story:
+                    "Kamu bertemu teman baru di kelas bahasa Jepang.",
+
+                prompt: "Nama saya Revaldo.",
+                translation: "Watashi wa Rebarudo desu.",
+
+                options: [
+
+                    {
+                        jp: "私はレバルドです。",
+                        romaji: "Watashi wa Rebarudo desu.",
+                        correct: true,
+
+                        explanation:
+                            "Pola Watashi wa [nama] desu digunakan untuk memperkenalkan diri secara sederhana."
+                    },
+
+                    {
+                        jp: "さようなら。",
+                        romaji: "Sayounara",
+                        correct: false,
+
+                        explanation:
+                            "Artinya Selamat tinggal."
+                    },
+
+                    {
+                        jp: "おいしいです。",
+                        romaji: "Oishii desu",
+                        correct: false,
+
+                        explanation:
+                            "Artinya Enak."
+                    }
+
+                ]
+            }
+
+        ],
+
+
+        get scene() {
+            return this.scenes[this.step];
+        },
+
+
+        choose(index) {
+
+            this.chosen = index;
+
+            if (this.scene.options[index].correct) {
+                this.score++;
+            }
+
+        },
+
+
+        next() {
+
+            if (this.step === this.scenes.length - 1) {
+                this.finished = true;
+                return;
+            }
+
+            this.step++;
+            this.chosen = null;
+
+        },
+
+
+        restart() {
+
+            this.step = 0;
+            this.chosen = null;
+            this.score = 0;
+            this.finished = false;
+
+        }
+
+    };
+
+}
+
+</script>
+
+
+</body>
+</html>

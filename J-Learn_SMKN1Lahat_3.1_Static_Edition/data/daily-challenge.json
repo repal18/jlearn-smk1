@@ -1,0 +1,11 @@
+{
+  "title": "The First Greeting",
+  "task": "Pilih salam yang tepat untuk pagi hari.",
+  "answer": "おはよう",
+  "choices": [
+    "こんばんは",
+    "おはよう",
+    "さようなら"
+  ],
+  "explanation": "おはよう (Ohayou) digunakan untuk menyapa pada pagi hari."
+}
